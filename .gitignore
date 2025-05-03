@@ -1,11 +1,53 @@
-# Python-generated files
+# Python
 __pycache__/
-*.py[oc]
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
 build/
+develop-eggs/
 dist/
-wheels/
-*.egg-info
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
 
-# Virtual environments
-.venv
-.idea
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Node.js
+node_modules/
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+yarn-integrity.*
+.pnpm-store/
+.pnpm-debug.*
+lerna-debug.*
+pnpm-lock.yaml
+
+# Project specific
+backend/database/*
+backend/static/audio/*
+backend/static/images/*
+uv.lock

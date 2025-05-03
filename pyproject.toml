@@ -1,7 +1,10 @@
 [project]
 name = "ai-gen"
 version = "0.1.0"
-description = "Add your description here"
+description = "A Diary App with Flask and Vue3"
 readme = "README.md"
 requires-python = ">=3.9"
-dependencies = []
+dependencies = [
+    "flask>=2.0.0",
+    "flask-cors>=3.0.10"
+]
