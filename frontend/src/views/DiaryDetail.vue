@@ -122,6 +122,72 @@ export default {
   .header-buttons {
     justify-content: flex-start;
     margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .header-buttons .el-button {
+    margin-bottom: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  .content {
+    font-size: 14px;
+    margin-top: 15px;
+  }
+  .media {
+    margin-top: 15px;
+  }
+  .media h3 {
+    font-size: 16px;
+  }
+  img {
+    max-height: 200px;
+  }
+  .el-row {
+    display: flex;
+    flex-direction: column;
+  }
+  .el-col {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-buttons .el-button {
+    padding: 12px 16px;
+    font-size: 16px;
+    min-width: 60px;
+    min-height: 48px;
+    border-radius: 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 4px;
+    z-index: 100;
+  }
+  .content {
+    font-size: 14px;
+    margin-top: 12px;
+    line-height: 1.6;
+    color: #444;
+  }
+  .date, .mood, .tags {
+    font-size: 13px;
+    color: #666;
+  }
+  .media {
+    margin-top: 12px;
+  }
+  .media h3 {
+    font-size: 15px;
+    color: #333;
+  }
+  img {
+    max-height: 180px;
+    border-radius: 8px;
+  }
+  .diary-detail {
+    padding: 12px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   }
 }
 </style>

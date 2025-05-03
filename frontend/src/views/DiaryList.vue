@@ -32,7 +32,7 @@
       </el-dialog>
       <el-row :gutter="20">
         <el-col :span="6" class="sidebar">
-          <el-card class="filter-card">
+          <el-card class="filter-card desktop-filter">
             <h3>筛选</h3>
             <el-divider></el-divider>
             <h4>心情</h4>
@@ -45,6 +45,26 @@
               <el-checkbox v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</el-checkbox>
             </el-checkbox-group>
           </el-card>
+          <div class="mobile-filter">
+            <el-button @click="showFilterDialog" class="filter-button">筛选</el-button>
+            <el-dialog title="筛选" v-model="filterDialogVisible" width="90%" :append-to-body="true">
+              <el-collapse v-model="activeNames" accordion>
+                <el-collapse-item title="心情" name="1">
+                  <el-checkbox-group v-model="selectedMoods" @change="filterDiaries">
+                    <el-checkbox v-for="mood in moods" :key="mood" :value="mood">{{ mood }}</el-checkbox>
+                  </el-checkbox-group>
+                </el-collapse-item>
+                <el-collapse-item title="标签" name="2">
+                  <el-checkbox-group v-model="selectedTags" @change="filterDiaries">
+                    <el-checkbox v-for="tag in tags" :key="tag" :value="tag">{{ tag }}</el-checkbox>
+                  </el-checkbox-group>
+                </el-collapse-item>
+              </el-collapse>
+              <span slot="footer" class="dialog-footer">
+                <el-button @click="filterDialogVisible = false">关闭</el-button>
+              </span>
+            </el-dialog>
+          </div>
         </el-col>
         <el-col :span="18">
           <div class="card-view">
@@ -85,7 +105,9 @@ export default {
       tags: ['工作', '生活', '旅行', '学习', '家庭', '朋友'],
       darkMode: localStorage.getItem('darkMode') === 'true',
       deleteSelectedDialogVisible: false,
-      deleteAllDialogVisible: false
+      deleteAllDialogVisible: false,
+      filterDialogVisible: false,
+      activeNames: ['1']
     }
   },
   mounted() {
@@ -166,6 +188,9 @@ export default {
     },
     showDeleteAllDialog() {
       this.deleteAllDialogVisible = true
+    },
+    showFilterDialog() {
+      this.filterDialogVisible = true
     },
     deleteSelectedDiaries() {
       axios.post('/api/diaries/bulk-delete', { ids: this.selectedDiaries }).then(() => {
@@ -269,14 +294,17 @@ export default {
 }
 .el-empty {
   margin-top: 50px;
+  z-index: 50;
 }
 @media (max-width: 768px) {
   .sidebar {
     position: relative;
     top: 0;
+    margin-bottom: 20px;
   }
   .el-row {
-    display: block;
+    display: flex;
+    flex-direction: column;
   }
   .el-col {
     width: 100%;
@@ -284,6 +312,102 @@ export default {
   .header-buttons {
     justify-content: flex-start;
     margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .header-buttons .el-button {
+    margin: 4px;
+    padding: 12px 16px;
+    font-size: 16px;
+    min-width: 60px;
+    min-height: 48px;
+    border-radius: 24px;
+    z-index: 1001;
+    position: relative;
+  }
+  .header-buttons .el-input {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  .diary-card {
+    padding: 10px;
+  }
+  .diary-card h3 {
+    font-size: 16px;
+  }
+  .content {
+    font-size: 14px;
+  }
+  .desktop-filter {
+    display: none;
+  }
+  .mobile-filter {
+    display: block;
+  }
+  .filter-button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (min-width: 769px) {
+  .desktop-filter {
+    display: block;
+  }
+  .mobile-filter {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-buttons .el-button {
+    padding: 10px 14px;
+    font-size: 14px;
+    min-width: 40px;
+    min-height: 40px;
+    margin-bottom: 8px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+  }
+  .diary-card {
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .diary-card h3 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  .content {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #666;
+  }
+  .date, .mood, .tags {
+    font-size: 12px;
+  }
+  .diary-list {
+    padding: 10px;
+  }
+  .header-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .header-buttons {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .filter-button {
+    padding: 10px 14px;
+    font-size: 16px;
+    min-height: 40px;
+    z-index: 10;
+    position: relative;
   }
 }
 </style>

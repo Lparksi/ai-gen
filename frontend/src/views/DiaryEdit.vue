@@ -201,6 +201,47 @@ export default {
   .header-buttons {
     justify-content: flex-start;
     margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .header-buttons .el-button {
+    margin-bottom: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  .diary-form .el-form-item label {
+    font-size: 14px;
+  }
+  .diary-form .el-input, .diary-form .el-select, .diary-form .el-textarea {
+    font-size: 14px;
+  }
+  .el-row {
+    display: flex;
+    flex-direction: column;
+  }
+  .el-col {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-buttons .el-button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  .diary-form .el-form-item label {
+    font-size: 12px;
+  }
+  .diary-form .el-input, .diary-form .el-select, .diary-form .el-textarea {
+    font-size: 12px;
+  }
+  .diary-form .el-form-item {
+    margin-bottom: 10px;
+  }
+  .diary-edit {
+    padding: 10px;
+  }
+  .diary-form {
+    label-width: 80px;
   }
 }
 </style>
