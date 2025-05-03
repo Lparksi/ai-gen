@@ -15,6 +15,19 @@
         </el-col>
       </el-row>
     </el-header>
+    <!-- 新增移动端底部操作栏 -->
+    <div class="mobile-actions">
+      <el-input v-model="searchQuery" placeholder="搜索日记..." @input="searchDiaries" class="mobile-search"></el-input>
+      <div class="mobile-actions-row">
+        <el-button type="primary" @click="goToEdit">新增日记</el-button>
+        <el-button type="success" @click="addDemoData">添加演示数据</el-button>
+        <el-button type="default" @click="toggleDarkMode">{{ darkMode ? '关闭黑暗模式' : '开启黑暗模式' }}</el-button>
+      </div>
+      <div class="mobile-actions-row">
+        <el-button type="danger" @click="showDeleteSelectedDialog" :disabled="selectedDiaries.length === 0">删除选中</el-button>
+        <el-button type="danger" @click="showDeleteAllDialog">全部删除</el-button>
+      </div>
+    </div>
     <el-main>
       <el-dialog title="确认删除" v-model="deleteSelectedDialogVisible" width="30%">
         <span>您确定要删除选中的 {{ selectedDiaries.length }} 条日记吗？此操作无法撤销。</span>
@@ -310,23 +323,44 @@ export default {
     width: 100%;
   }
   .header-buttons {
-    justify-content: flex-start;
-    margin-top: 10px;
-    flex-wrap: wrap;
+    display: none !important;
   }
-  .header-buttons .el-button {
-    margin: 4px;
-    padding: 12px 16px;
-    font-size: 16px;
-    min-width: 60px;
-    min-height: 48px;
-    border-radius: 24px;
-    z-index: 1001;
-    position: relative;
+  .mobile-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    background: #fff;
+    z-index: 2000;
+    padding: 6px 4px 6px 4px;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+    border-top: 1px solid #eee;
+    gap: 4px;
   }
-  .header-buttons .el-input {
+  .mobile-actions .mobile-search {
+    margin-bottom: 4px;
+    min-width: 0;
     width: 100%;
-    margin-bottom: 5px;
+  }
+  .mobile-actions-row {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    margin-bottom: 2px;
+  }
+  .mobile-actions-row .el-button {
+    flex: 1 1 0;
+    min-width: 0;
+    font-size: 14px;
+    padding: 8px 0;
+    border-radius: 18px;
+    margin: 0;
+  }
+  .diary-list {
+    padding-bottom: 100px; /* 增加底部空间，避免内容被按钮遮挡 */
   }
   .diary-card {
     padding: 10px;
@@ -355,6 +389,9 @@ export default {
   }
   .mobile-filter {
     display: none;
+  }
+  .mobile-actions {
+    display: none !important;
   }
 }
 
@@ -455,5 +492,9 @@ body.dark-mode .el-input__inner {
 }
 body.dark-mode .el-divider {
   background-color: #444;
+}
+body.dark-mode .mobile-actions {
+  background: #1e1e1e;
+  border-top: 1px solid #333;
 }
 </style>
