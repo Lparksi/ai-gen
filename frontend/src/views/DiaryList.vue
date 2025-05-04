@@ -9,7 +9,7 @@
           <el-input v-model="searchQuery" placeholder="搜索日记..." @input="searchDiaries" style="width: 200px; margin-right: 10px;"></el-input>
           <el-button type="primary" @click="goToEdit">新增日记</el-button>
           <el-button type="success" @click="addDemoData">添加演示数据</el-button>
-          <el-button type="default" @click="toggleDarkMode">{{ darkMode ? '关闭黑暗模式' : '开启黑暗模式' }}</el-button>
+          <el-button type="default" @click="toggleTheme">{{ currentTheme === 'light-theme' ? '开启黑暗模式' : '关闭黑暗模式' }}</el-button>
           <el-button type="danger" @click="showDeleteSelectedDialog" :disabled="selectedDiaries.length === 0" style="margin-left: 10px;">删除选中</el-button>
           <el-button type="danger" @click="showDeleteAllDialog" style="margin-left: 10px;">全部删除</el-button>
         </el-col>
@@ -21,7 +21,7 @@
       <div class="mobile-actions-row">
         <el-button type="primary" @click="goToEdit">新增日记</el-button>
         <el-button type="success" @click="addDemoData">添加演示数据</el-button>
-        <el-button type="default" @click="toggleDarkMode">{{ darkMode ? '关闭黑暗模式' : '开启黑暗模式' }}</el-button>
+        <el-button type="default" @click="toggleTheme">{{ currentTheme === 'light-theme' ? '开启黑暗模式' : '关闭黑暗模式' }}</el-button>
       </div>
       <div class="mobile-actions-row">
         <el-button type="danger" @click="showDeleteSelectedDialog" :disabled="selectedDiaries.length === 0">删除选中</el-button>
@@ -103,9 +103,16 @@
 
 <script>
 import axios from 'axios'
+import { inject } from 'vue'
 
 export default {
   name: 'DiaryList',
+  setup() {
+    return {
+      toggleTheme: inject('toggleTheme'),
+      currentTheme: inject('currentTheme')
+    }
+  },
   data() {
     return {
       diaries: [],
@@ -116,7 +123,6 @@ export default {
       selectedDiaries: [],
       moods: ['开心', '难过', '平静', '愤怒', '焦虑'],
       tags: ['工作', '生活', '旅行', '学习', '家庭', '朋友'],
-      darkMode: localStorage.getItem('darkMode') === 'true',
       deleteSelectedDialogVisible: false,
       deleteAllDialogVisible: false,
       filterDialogVisible: false,
@@ -125,7 +131,6 @@ export default {
   },
   mounted() {
     this.fetchDiaries()
-    this.applyTheme()
   },
   methods: {
     fetchDiaries() {
@@ -229,17 +234,8 @@ export default {
     goToDetailRow(row) {
       this.$router.push({ name: 'DiaryDetail', params: { id: row[0] } })
     },
-    toggleDarkMode() {
-      this.darkMode = !this.darkMode
-      localStorage.setItem('darkMode', this.darkMode)
-      this.applyTheme()
-    },
-    applyTheme() {
-      if (this.darkMode) {
-        document.body.classList.add('dark-mode')
-      } else {
-        document.body.classList.remove('dark-mode')
-      }
+    toggleTheme() {
+      this.toggleTheme();
     },
     formatDate(dateStr) {
       const date = new Date(dateStr)
@@ -270,6 +266,10 @@ export default {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  gap: 10px; /* 新增：按钮间距 */
+}
+.header-buttons .el-button {
+  margin: 0; /* 移除原有margin，统一用gap控制 */
 }
 .sidebar {
   position: sticky;
@@ -348,16 +348,16 @@ export default {
   .mobile-actions-row {
     display: flex;
     flex-direction: row;
-    gap: 4px;
+    gap: 8px; /* 按钮间距更大一点 */
     margin-bottom: 2px;
   }
   .mobile-actions-row .el-button {
     flex: 1 1 0;
     min-width: 0;
     font-size: 14px;
-    padding: 8px 0;
+    padding: 10px 0;
     border-radius: 18px;
-    margin: 0;
+    margin: 0; /* 移除原有margin */
   }
   .diary-list {
     padding-bottom: 100px; /* 增加底部空间，避免内容被按钮遮挡 */
@@ -405,6 +405,10 @@ export default {
     border-radius: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     z-index: 1000;
+    margin: 0; /* 移除原有margin */
+  }
+  .header-buttons {
+    gap: 8px; /* 移动端按钮间距 */
   }
   .diary-card {
     padding: 12px;
@@ -445,6 +449,9 @@ export default {
     min-height: 40px;
     z-index: 10;
     position: relative;
+  }
+  .mobile-actions-row {
+    gap: 8px;
   }
 }
 </style>

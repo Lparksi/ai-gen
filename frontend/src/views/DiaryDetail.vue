@@ -38,13 +38,11 @@ export default {
   name: 'DiaryDetail',
   data() {
     return {
-      diary: [],
-      darkMode: localStorage.getItem('darkMode') === 'true'
+      diary: []
     }
   },
   mounted() {
     this.fetchDiary()
-    this.applyTheme()
   },
   methods: {
     fetchDiary() {
@@ -70,13 +68,6 @@ export default {
         console.error('Error deleting diary:', error)
         this.$message.error('删除失败')
       })
-    },
-    applyTheme() {
-      if (this.darkMode) {
-        document.body.classList.add('dark-mode')
-      } else {
-        document.body.classList.remove('dark-mode')
-      }
     },
     formatDate(dateStr) {
       const date = new Date(dateStr)

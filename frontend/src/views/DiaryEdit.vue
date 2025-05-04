@@ -78,15 +78,13 @@ export default {
       audioUrl: '',
       isRecording: false,
       mediaRecorder: null,
-      audioChunks: [],
-      darkMode: localStorage.getItem('darkMode') === 'true'
+      audioChunks: []
     }
   },
   mounted() {
     if (this.id) {
       this.fetchDiary()
     }
-    this.applyTheme()
   },
   methods: {
     fetchDiary() {
@@ -172,13 +170,6 @@ export default {
     goBack() {
       this.$router.push({ name: 'DiaryList' })
     },
-    applyTheme() {
-      if (this.darkMode) {
-        document.body.classList.add('dark-mode')
-      } else {
-        document.body.classList.remove('dark-mode')
-      }
-    }
   }
 }
 </script>
